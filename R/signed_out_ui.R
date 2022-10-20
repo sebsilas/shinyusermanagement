@@ -1,10 +1,14 @@
 
-signed_out_ui <- function(id) {
+signed_out_ui <- function(id, pre_login_content) {
 
   ns <- shiny::NS(id)
 
   shiny::tagList(
     shiny::includeScript(path = system.file("js/signed_out_script.js", package = 'shinyusermanagement')),
+
+  shiny::tags$div(id = "prelogin", pre_login_content()),
+
+    shiny::tags$br(),
 
     shiny::tags$div(
       id = ns("sign_in_section"),
@@ -41,12 +45,6 @@ signed_out_ui <- function(id) {
         inputId = ns("sign_up_user"),
         label = NULL,
         placeholder = "Username (4-10 characters)"
-      ),
-
-      shiny::textInput(
-        inputId = ns("sign_up_color"),
-        label = NULL,
-        placeholder = "Favorite Color"
       ),
 
       shiny::passwordInput(

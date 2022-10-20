@@ -4,3 +4,6 @@
 rsconnect/*
 .Renviron
 /test_app
+/output
+/test_ptr_int
+/test

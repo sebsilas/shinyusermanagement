@@ -1,4 +1,6 @@
-signed_in_ui <- function(id) {
+signed_in_ui <- function(id,
+                         logged_in_ui,
+                         logged_in_message = "Here is a login message!") {
 
   ns <- shiny::NS(id)
 
@@ -6,58 +8,60 @@ signed_in_ui <- function(id) {
     shiny::includeScript(path = system.file("js/signed_in_script.js", package = 'shinyusermanagement')),
 
     shiny::tags$div(
+
       shiny::tags$div(class = "content-title",
                       shiny::textOutput(outputId = ns("signed_in_title"))),
 
-      "This content is only accessible by you.",
       shiny::tags$br(),
 
-      shiny::uiOutput(outputId = ns("signed_in_color")),
+      shiny::tags$p(logged_in_message),
+
       shiny::tags$br(),
 
-      shiny::tags$form(
-        class = "inline-parent signed-in-form",
-
-        shiny::textInput(
-          inputId = ns("signed_in_new_color"),
-          label = NULL,
-          placeholder = "Change Favorite Color"
-        ),
-
-        shiny::actionButton(inputId = ns("signed_in_new_color_button"), label = "Apply")
-      ),
-
-      shiny::tags$form(
-        class = "signed-in-form",
-
-        shiny::passwordInput(
-          inputId = ns("signed_in_new_password"),
-          label = NULL,
-          placeholder = "New Password (6-12 characters)"
-        ),
-
-        shiny::tags$div(
-          class = "inline-parent",
-
-          shiny::passwordInput(
-            inputId = ns("signed_in_verify_new_password"),
-            label = NULL,
-            placeholder = "Verify New Password"
-          ),
-
-          shiny::actionButton(inputId = ns("signed_in_new_password_button"), label = "Apply")
-        )
+      shiny::tabsetPanel(
+        logged_in_ui(),
+        account_details(ns)
       ),
 
       shiny::tags$div(
         id = "signed_in_buttons",
-
         shiny::actionButton(inputId = ns("sign_out_button"), label = "Sign Out"),
+      )
+    )
+  )
+}
+
+
+account_details <- function(ns) {
+  shiny::tabPanel("Account Details",
+
+    shiny::tags$form(
+      class = "signed-in-form",
+
+      shiny::passwordInput(
+        inputId = ns("signed_in_new_password"),
+        label = "Change your password",
+        placeholder = "New Password (6-12 characters)"
+      ),
+
+      shiny::tags$div(
+        class = "inline-parent",
+
+        shiny::passwordInput(
+          inputId = ns("signed_in_verify_new_password"),
+          label = NULL,
+          placeholder = "Verify New Password"
+        ),
+
+        shiny::actionButton(inputId = ns("signed_in_new_password_button"), label = "Change Password"),
+        shiny::tags$hr(),
         shiny::actionButton(
           inputId = ns("remove_account_button"),
           label = "Remove Account",
           class = "caution-button"
-        )
+        ),
+        shiny::tags$br(),
+        shiny::tags$hr()
       )
     )
   )

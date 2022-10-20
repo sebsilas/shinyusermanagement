@@ -84,7 +84,6 @@ sign_in_server <- function(id, active_user) {
         formatted_log(user = input$sign_in_user, content = "successful sign in")
 
         active_user$username <- try_result$username
-        active_user$color <- try_result$color
 
         session$sendCustomMessage(type = "aboutSectionHandler", message = "hide")
 

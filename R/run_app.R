@@ -1,20 +1,30 @@
 
-run_app <- function() {
+#' Run the login panel
+#'
+#' @param title Title of login panel.
+#' @param pre_login_content Content to go before login.
+#' @param url Main URL of login panel.
+#' @param footer_message Message to go in footer.
+#' @param logged_in_ui UI extra to show on logged in page.
+#' @param logged_in_message Message to show when someone is logged in.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+run_app <- function(title = "R Shiny User Management & Authentication",
+                    pre_login_content = pre_login_content_default,
+                    url = "https://assets.yanirmor.com",
+                    footer_message = shiny::tags$p("Need help? Contact
+                                            ", shiny::tags$a(href = "mailto:sebsilas@gmail.com",
+                                            "sebsilas@gmail.com")),
+                    logged_in_ui = function() { shiny::tags$div() },
+                    logged_in_message = "Here is a logged in message!") {
 
   ui <- shiny::basicPage(
     # page set up -----
     shiny::tags$head(
       shiny::tags$meta(charset = "UTF-8"),
-
-      shiny::tags$meta(
-        name = "keywords",
-        content = "R Shiny, Shiny, Shiny User Management, Shiny Authentication, Yanir Mor"
-      ),
-
-      shiny::tags$meta(
-        name = "description",
-        content = "Demonstration of user management and authentication system in R Shiny. Users can see content specific to them, which no other user can access."
-      ),
 
       shiny::tags$link(href = "assets/img/icons/user.png", rel = "icon"),
       shiny::tags$link(href = "assets/img/icons/user.png", rel = "apple-touch-icon"),
@@ -33,50 +43,18 @@ run_app <- function() {
 
       # header -----
       shiny::tags$header(
+        shiny::tags$a(
+          href = url,
         shiny::tags$div(
           id = "header_title",
-
           shiny::tags$img(src = "assets/img/icons/user.png"),
-          shiny::tags$span("R Shiny", class = "third-color"),
-          "User Management",
-          shiny::tags$span("&", class = "third-color"),
-          "Authentication"
-        ),
+          title))
 
-        shiny::tags$div(
-          id = "header_buttons",
-
-          shiny::tags$a(
-            href = "https://assets.yanirmor.com",
-            target = "_blank",
-            shiny::tags$img(src = "assets/img/icons/website.png"),
-            title = "My Website"
-          ),
-
-          shiny::tags$a(
-            href = "https://github.com/yanirmor/shiny-user-management",
-            target = "_blank",
-            shiny::tags$img(src = "assets/img/icons/github.png"),
-            title = "Source Code"
-          )
-        )
       ),
 
       # body -----
       shiny::tags$div(
         class = "wrapper",
-
-        # about section -----
-        shiny::tags$div(
-          id = "about",
-
-          shiny::tags$div(class = "content-title", "About"),
-          "This app demonstrates a secured user management and authentication system in R Shiny.",
-          shiny::tags$br(),
-          "Users can sign up, and their credentials are stored in a PostgreSQL database.",
-          shiny::tags$br(),
-          "Once signed in, a user can see content specific to him/her (in this case, a favorite color), which no other user can access."
-        ),
 
         # dynamic ui section -----
         shiny::uiOutput("dynamic_ui")
@@ -84,20 +62,7 @@ run_app <- function() {
 
       # footer -----
       shiny::tags$footer(
-        shiny::tags$div(
-          id = "footer_copyright",
-          "2019",
-          shiny::tags$span(class = "third-color", "Yanir Mor"),
-          shiny::HTML("&copy;"),
-          "All Rights Reserved",
-          shiny::tags$span(
-            id = "licenses",
-            shiny::tags$span(class = "third-color", "(Licenses)"),
-            shiny::tags$div(
-              "Icon by Typicons / Iconfinder (CC BY-SA 3.0)"
-            )
-          )
-        )
+        shiny::tags$div(id = "footer_message", footer_message)
       )
     )
   ))
@@ -107,14 +72,14 @@ run_app <- function() {
   server <- function(input, output, session) {
 
     # reactive values init -----
-    active_user <- shiny::reactiveValues(username = NULL, color = NULL)
+    active_user <- shiny::reactiveValues(username = NULL)
 
       # dynamic ui -----
       output$dynamic_ui <- shiny::renderUI({
         if (is.null(active_user$username)) {
-          signed_out_ui("sign")
+          signed_out_ui("sign", pre_login_content)
         } else {
-          signed_in_ui("sign")
+          signed_in_ui("sign", logged_in_ui, logged_in_message)
         }
       })
 
@@ -131,6 +96,21 @@ run_app <- function() {
 
     shiny::shinyApp(ui, server)
 
+}
+
+
+
+pre_login_content_default <- function() {
+  shiny::tags$div(
+    id = "about",
+
+    shiny::tags$div(class = "content-title", "About"),
+    "This app demonstrates a secured user management and authentication system in R Shiny.",
+    shiny::tags$br(),
+    "Users can sign up, and their credentials are stored in a PostgreSQL database.",
+    shiny::tags$br(),
+    "Once signed in, a user can see content specific to him/her (in this case, a favorite color), which no other user can access."
+  )
 }
 
 

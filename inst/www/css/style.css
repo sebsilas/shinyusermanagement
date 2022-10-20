@@ -5,11 +5,15 @@ body {
     font-size: 16px;
     font-weight: 300;
     letter-spacing: 0.5px;
-    color: #000000;
+    color: #000;
     margin: 0;
     padding: 0 0 80px 0;
     position: relative;
     min-height: 100vh;
+}
+
+h2 {
+  color: #25414b;
 }
 
 .container-fluid {
@@ -21,7 +25,7 @@ body {
 }
 
 .third-color {
-    color: #fcf854;
+    color: #377094
 }
 
 .highlighted {
@@ -52,6 +56,7 @@ header #header_title {
     font-size: 25px;
     font-weight: 600;
     letter-spacing: 1px;
+    color: #fff;
 }
 
 header #header_title img {
@@ -66,7 +71,7 @@ header #header_buttons img {
 }
 
 header #header_buttons img:hover {
-    background-color: #fcf854;
+    background-color: #377094;
     cursor: pointer;
 }
 
@@ -135,7 +140,7 @@ header a:focus {
     border: none;
     font-family: "Open Sans", sans-serif;
     font-size: 14px;
-    color: #ffffff;
+    color: #fff;
     letter-spacing: 0.5px;
     border-radius: 0;
     margin-top: 15px;
@@ -143,20 +148,19 @@ header a:focus {
 }
 
 .btn:hover {
-    background-color: #498497;
-    color: #fcf854;
+    background-color: #377094;
 }
 
 .btn:active,
 .btn:active:focus {
     background-color: #25414b;
-    color: #fcf854;
     border-radius: 0;
     outline: none;
 
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+
 
 /* modals */
 
@@ -176,7 +180,7 @@ header a:focus {
 
 .modal-title {
     font-size: 19px;
-    font-weight: 700;    
+    font-weight: 700;
 }
 
 .modal-title > span {
@@ -276,7 +280,7 @@ header a:focus {
 
 #about {
     line-height: 30px;
-    text-align: center;
+    padding: 0 30px 30px 30px;
 }
 
 /* dynamic ui */
@@ -292,13 +296,13 @@ header a:focus {
     -ms-flex-pack: center;
     justify-content: center;
 
-    text-align: center;
     width: 100%;
 }
 
 /* signed in buttons */
 
 #signed_in_buttons {
+    margin-top: 30px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -330,7 +334,7 @@ header a:focus {
 .caution-button:active,
 .caution-button:active:focus {
     background-color: #25414b;
-    color: #fcf854;
+    color: #377094;
     border-radius: 0;
     outline: none;
 }
@@ -338,7 +342,7 @@ header a:focus {
 /* footer */
 footer {
     width: 100%;
-    
+
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 
@@ -363,6 +367,11 @@ footer {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+}
+
+
+.signed-in-form {
+  padding-top: 30px;
 }
 
 footer .third-color {
@@ -394,6 +403,16 @@ footer #licenses > div {
     font-size: 12px;
 }
 
-footer #footer_copyright {
+footer #footer_message {
     margin-bottom: 15px;
+    color: #fff;
+}
+
+footer #footer_message a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+footer #footer_message a:hover {
+  text-decoration: none;
 }
