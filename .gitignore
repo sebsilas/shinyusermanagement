@@ -1,5 +1,6 @@
 .Renviron
 .Rproj.user
 .Rhistory
-
 rsconnect/*
+.Renviron
+/test_app

@@ -4,23 +4,23 @@ formatted_log <- function(user, error = F, content) {
 
 generic_modal <- function(error = T, content) {
   title <- if (error) {
-    span(img(src = "icons/user_red.png", "Oops..."))
+    shiny::tags$span(shiny::tags$img(src = "assets/img/icons/user_red.png", "Oops..."))
   } else {
-    span(img(src = "icons/user_green.png", "Success!"))
+    shiny::tags$span(shiny::tags$img(src = "assets/img/icons/user_green.png", "Success!"))
   }
-  
+
   showModal(
     modalDialog(
       title = title,
-      easyClose = T,
+      easyClose = TRUE,
       content
     )
   )
 }
 
 connect_to_db <- function() {
-  dbConnect(
-    drv = Postgres(), 
+  DBI::dbConnect(
+    drv = RPostgres::Postgres(),
     host = Sys.getenv(x = "DB_HOST"),
     port = Sys.getenv(x = "DB_PORT"),
     dbname = Sys.getenv(x = "DB_NAME"),
