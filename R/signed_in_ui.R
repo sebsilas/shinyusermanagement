@@ -1,6 +1,9 @@
-signed_in_ui <- function(id,
+
+signed_in_ui <- function(db_con,
+                         id,
                          logged_in_ui,
-                         logged_in_message = "Here is a login message!") {
+                         logged_in_message = "Here is a login message!",
+                         username) {
 
   ns <- shiny::NS(id)
 
@@ -18,10 +21,11 @@ signed_in_ui <- function(id,
 
       shiny::tags$br(),
 
-      shiny::tabsetPanel(
-        logged_in_ui(),
-        account_details(ns)
-      ),
+        logged_in_ui(
+          db_con = db_con,
+          account_settings = account_details(ns),
+          username = username
+          ),
 
       shiny::tags$div(
         id = "signed_in_buttons",

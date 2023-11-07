@@ -8,10 +8,12 @@ run_app(
   title = "R Shiny User Management & Authentication",
   pre_login_content = pre_login_content_default,
   url = "https://assets.yanirmor.com",
- 
-    footer_message = shiny::tags$p("Need help? Contact\\n                                            ",
+  footer_message =
+    shiny::tags$p("Need help? Contact\\n                                            ",
     shiny::tags$a(href = "mailto:sebsilas@gmail.com", "sebsilas@gmail.com")),
-  logged_in_ui = function() {     shiny::tags$div() },
+  logged_in_ui = function() {
+     shiny::tags$div()
+ },
   logged_in_message = "Here is a logged in message!"
 )
 }
@@ -27,9 +29,6 @@ run_app(
 \item{logged_in_ui}{UI extra to show on logged in page.}
 
 \item{logged_in_message}{Message to show when someone is logged in.}
-}
-\value{
-
 }
 \description{
 Run the login panel

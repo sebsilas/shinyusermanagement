@@ -13,6 +13,7 @@ Imports:
     DBI,
     digest,
     dplyr,
+    logging,
     magrittr,
     RPostgres,
     shiny,

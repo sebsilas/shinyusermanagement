@@ -12,11 +12,11 @@ sign_up_server <- function(id, active_user) {
       )
 
       # sign up validation -----
-      formatted_log(user = input$sign_up_user, content = "sign up validation")
+      formatted_log(user = input$sign_up_user, content = "Sign up validation.")
 
 
       validation_result <- all(
-        input$sign_up_user %>% grepl(pattern = "^[A-z0-9]{4,10}$"),
+        input$sign_up_user %>% grepl(pattern = "^[A-z0-9]{3,10}$"),
         input$sign_up_password %>% grepl(pattern = "^[A-z0-9]{6,12}$"),
         input$sign_up_password == input$sign_up_verify_password
       )
@@ -25,7 +25,7 @@ sign_up_server <- function(id, active_user) {
         formatted_log(
           user = input$sign_up_user,
           error = TRUE,
-          content = "sign up validation failed"
+          content = "Sign up validation failed."
         )
 
         shiny::updateTextInput(
@@ -51,7 +51,7 @@ sign_up_server <- function(id, active_user) {
             br(),
             "Please try again with the following rules:",
             br(), br(),
-            tags$li("Username of 4-10 letters or digits"),
+            tags$li("Username of 3-10 letters or digits"),
             tags$li("Password of 6-12 letters or digits")
           )
         )
@@ -60,7 +60,7 @@ sign_up_server <- function(id, active_user) {
       shiny::req(validation_result)
 
       # sign up a new user -----
-      formatted_log(user = input$sign_up_user, content = "sign up a new user")
+      formatted_log(user = input$sign_up_user, content = "Sign up a new user.")
 
       shiny::withProgress(
         value = 1,
@@ -70,14 +70,11 @@ sign_up_server <- function(id, active_user) {
 
           if (does_user_exists(input$sign_up_user)) {
 
-            print('iffie..')
-
-
-            # sign up failed due to taken username
+            # Sign up failed due to taken username
             formatted_log(
               user = input$sign_up_user,
               error = TRUE,
-              content = "sign up failed due to taken username"
+              content = "Sign up failed due to taken username."
             )
 
             shiny::updateTextInput(
@@ -101,10 +98,8 @@ sign_up_server <- function(id, active_user) {
 
           } else {
 
-            print('elsie..')
-
             # successful sign up
-            formatted_log(user = input$sign_up_user, content = "successful sign up")
+            formatted_log(user = input$sign_up_user, content = "Successful sign up!")
 
             active_user$username <- input$sign_up_user
 
@@ -126,14 +121,14 @@ sign_up_server <- function(id, active_user) {
               algo = "sha512"
             ),
             created_at = strftime(x = Sys.time(), tz = "UTC"),
-            is_enabled = 'y'
+            enabled = TRUE
           )
 
           try_result <- try(
             silent = TRUE,
             expr = DBI::dbWriteTable(
               conn = conn,
-              name = "user_management",
+              name = "users",
               value = new_row,
               overwrite = FALSE,
               append = TRUE
@@ -142,7 +137,7 @@ sign_up_server <- function(id, active_user) {
 
           DBI::dbDisconnect(conn = conn)
 
-          if(try_result == FALSE) {
+          if(!try_result) {
             generic_modal(content = "Sorry. An unknown error occured. Please try again.")
           }
         }
@@ -159,14 +154,14 @@ does_user_exists <- function(proposed_username) {
   tables <- DBI::dbListTables(conn)
 
   eval <- function() {
-    tab <- DBI::dbReadTable(conn, 'user_management')
+    tab <- DBI::dbReadTable(conn, 'users')
     print(tab)
     DBI::dbDisconnect(conn = conn)
-    if(proposed_username %in% tab$username) return(TRUE) else return(FALSE)
+    return(proposed_username %in% tab$username)
   }
 
   if(length(tables) > 0L) {
-    if("user_management" %in% tables) {
+    if("users" %in% tables) {
       return(eval())
     } else {
       return(FALSE) # The table has not been created, so the user can't have been either.

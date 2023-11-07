@@ -1,5 +1,5 @@
 SELECT username
-FROM user_management
-WHERE is_enabled = 'y'
+FROM users
+WHERE enabled = 'y'
   AND username = ?username
   AND password = ?password;

@@ -1,4 +1,4 @@
-UPDATE user_management
-SET is_enabled = NULL
+UPDATE users
+SET enabled = NULL
 WHERE username = ?username
-  AND is_enabled = 'y';
+  AND enabled = 'y';

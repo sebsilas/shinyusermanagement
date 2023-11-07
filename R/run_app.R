@@ -71,6 +71,8 @@ run_app <- function(title = "R Shiny User Management & Authentication",
 
   server <- function(input, output, session) {
 
+
+
     # reactive values init -----
     active_user <- shiny::reactiveValues(username = NULL)
 
@@ -79,7 +81,7 @@ run_app <- function(title = "R Shiny User Management & Authentication",
         if (is.null(active_user$username)) {
           signed_out_ui("sign", pre_login_content)
         } else {
-          signed_in_ui("sign", logged_in_ui, logged_in_message)
+          signed_in_ui(db_con, "sign", logged_in_ui, logged_in_message, active_user$username)
         }
       })
 
