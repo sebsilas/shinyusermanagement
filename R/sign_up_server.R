@@ -1,4 +1,4 @@
-sign_up_server <- function(id, active_user) {
+sign_up_server <- function(id, active_user, on_sign_up_fun = NULL) {
   shiny::moduleServer(
     id,
     ## Below is the module function
@@ -98,7 +98,7 @@ sign_up_server <- function(id, active_user) {
 
           } else {
 
-            # successful sign up
+            # Successful sign up
             formatted_log(user = input$sign_up_user, content = "Successful sign up!")
 
             active_user$username <- input$sign_up_user
@@ -111,7 +111,7 @@ sign_up_server <- function(id, active_user) {
             )
 
           }
-          conn <- connect_to_db()
+          db_con <- connect_to_db()
 
           new_row <- data.frame(
             username = input$sign_up_user,
@@ -127,7 +127,7 @@ sign_up_server <- function(id, active_user) {
           try_result <- try(
             silent = TRUE,
             expr = DBI::dbWriteTable(
-              conn = conn,
+              conn = db_con,
               name = "users",
               value = new_row,
               overwrite = FALSE,
@@ -135,7 +135,10 @@ sign_up_server <- function(id, active_user) {
             )
           )
 
-          DBI::dbDisconnect(conn = conn)
+          # Run arbitrary on sign-up fun
+          if(!is.null(on_sign_up_fun)) on_sign_up_fun(db_con, active_user$username)
+
+          DBI::dbDisconnect(conn = db_con)
 
           if(!try_result) {
             generic_modal(content = "Sorry. An unknown error occured. Please try again.")

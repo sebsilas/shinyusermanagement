@@ -1,5 +1,5 @@
 
-signed_out_ui <- function(id, pre_login_content) {
+signed_out_ui <- function(id, pre_login_content, icon) {
 
   ns <- shiny::NS(id)
 
@@ -10,7 +10,7 @@ signed_out_ui <- function(id, pre_login_content) {
 
     shiny::tags$br(),
 
-    shiny::tags$div(
+    shiny::tags$form(
       id = ns("sign_in_section"),
       shiny::tags$div(class = "content-title", "Sign In"),
 
@@ -26,20 +26,20 @@ signed_out_ui <- function(id, pre_login_content) {
         placeholder = "Password"
       ),
 
-      shiny::actionButton(inputId = ns("sign_in_button"), label = "Sign In")
+      shiny::actionButton(inputId = ns("sign_in_button"), label = "Sign In", type = "submit")
     ),
 
     shiny::tags$div(
       class = "vr-separator",
 
       shiny::tags$div(class = "vr-line"),
-      shiny::tags$img(src = "assets/img/icons/user.png"),
+      shiny::tags$img(src = icon),
       shiny::tags$div(class = "vr-line")
     ),
 
     shiny::tags$form(
       id = "sign_up_section",
-      shiny::tags$div(class = "content-title", "Sign Up"),
+      shiny::tags$div(class = "content-title-alt", "Sign Up"),
 
       shiny::textInput(
         inputId = ns("sign_up_user"),
@@ -59,7 +59,7 @@ signed_out_ui <- function(id, pre_login_content) {
         placeholder = "Verify Password"
       ),
 
-      shiny::actionButton(inputId = ns("sign_up_button"), label = "Sign Up")
+      shiny::actionButton(inputId = ns("sign_up_button"), class = 'btn_alt', label = "Sign Up", type = "submit")
     )
   )
 

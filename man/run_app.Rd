@@ -14,7 +14,14 @@ run_app(
   logged_in_ui = function() {
      shiny::tags$div()
  },
-  logged_in_message = "Here is a logged in message!"
+  logged_in_message = "Here is a logged in message!",
+  on_start_fun = function() {
+     logging::loginfo("Initialising app")
+ },
+  css_stylesheet = NULL,
+  logo_image = "assets/img/icons/user.png",
+  icon = "assets/img/icons/user.png",
+  on_sign_up_fun = NULL
 )
 }
 \arguments{
@@ -29,6 +36,16 @@ run_app(
 \item{logged_in_ui}{UI extra to show on logged in page.}
 
 \item{logged_in_message}{Message to show when someone is logged in.}
+
+\item{on_start_fun}{Function to execute on launch}
+
+\item{css_stylesheet}{An optional additional css stylesheet.}
+
+\item{logo_image}{Logo image.}
+
+\item{icon}{Icon.}
+
+\item{on_sign_up_fun}{A function to run when the user signs up. Must have db_con and username arguments.}
 }
 \description{
 Run the login panel

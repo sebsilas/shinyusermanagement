@@ -1,6 +1,5 @@
 
-signed_in_ui <- function(db_con,
-                         id,
+signed_in_ui <- function(id,
                          logged_in_ui,
                          logged_in_message = "Here is a login message!",
                          username) {
@@ -17,12 +16,11 @@ signed_in_ui <- function(db_con,
 
       shiny::tags$br(),
 
-      shiny::tags$p(logged_in_message),
+      shiny::tags$p(class = "logged_in_message", logged_in_message),
 
       shiny::tags$br(),
 
         logged_in_ui(
-          db_con = db_con,
           account_settings = account_details(ns),
           username = username
           ),

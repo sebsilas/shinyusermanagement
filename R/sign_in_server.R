@@ -26,14 +26,11 @@ sign_in_server <- function(id, active_user) {
             )
           )
 
-          conn <- connect_to_db()
-
           try_result <- try(
             silent = TRUE,
-            expr = DBI::dbGetQuery(conn = conn, statement = query)
+            expr = DBI::dbGetQuery(conn = db_con, statement = query)
           )
 
-          DBI::dbDisconnect(conn = conn)
         }
       )
 
